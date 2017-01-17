@@ -91,6 +91,10 @@ public class Ods {
 	 */
 	public <T> List<T> readAllRows(String sheetName, Integer headerIndex, IRowMapper<T> mapper) {
 
+		checkHeaderIndex(headerIndex);
+		
+		readHeaders(sheetName, headerIndex);
+
 		Table sheet = getSheet(sheetName);
 
 		List<Row> rows = sheet.getRowList();
@@ -200,14 +204,25 @@ public class Ods {
 	 */
 	private void checkIndex(Integer headerIndex, Integer rowIndex) {
 
-		if (headerIndex < 0) {
-
-			throw new IllegalArgumentException("The header index must be greater than or equals to zero.");
-		}
+		checkHeaderIndex(headerIndex);
 
 		if (rowIndex <= headerIndex) {
 
 			throw new IllegalArgumentException("The row index must be greater than header index.");
+		}
+	}
+
+	/**
+	 * Method to validate header index.
+	 * 
+	 * @param headerIndex
+	 *            The index of header.
+	 */
+	private void checkHeaderIndex(Integer headerIndex) {
+
+		if (headerIndex < 0) {
+
+			throw new IllegalArgumentException("The header index must be greater than or equals to zero.");
 		}
 	}
 

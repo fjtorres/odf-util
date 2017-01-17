@@ -82,4 +82,20 @@ public class OdsTest {
 		Assert.assertEquals("Cell 1 - 1", row.getColumn1());
 		Assert.assertEquals("Cell 1 - 2", row.getColumn2());
 	}
+	
+	@Test
+	public void largeFileTest() throws Exception {
+		
+		final int largeSize = 3000;
+		
+		Ods largeOds = new Ods(Paths.get(ClassLoader.getSystemResource("TEST_LARGE.ods").toURI()));
+		
+		List<SimpleRow> rows = largeOds.readAllRows("Sheet1", 0, mapper);
+		Assert.assertEquals(largeSize, rows.size());
+		
+		Assert.assertEquals("Cell 1 - 1", rows.get(0).getColumn1());
+		Assert.assertEquals("Cell 1 - 2", rows.get(0).getColumn2());
+		Assert.assertEquals("Cell " + largeSize + " - 1", rows.get(largeSize - 1).getColumn1());
+		Assert.assertEquals("Cell " + largeSize + " - 2", rows.get(largeSize - 1).getColumn2());
+	}
 }
