@@ -1,0 +1,23 @@
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Java class files
+*.class
+  
+# generated files
+bin/
+gen/
+build/
+target/
+tmp/
+logs/
+data/
+Printing point/
+  
+# Eclipse project files
+.classpath
+.project
+.settings/
