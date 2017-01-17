@@ -246,11 +246,19 @@ public class Ods {
 
 		Row headersRow = sheet.getRowByIndex(headerIndex);
 
-		for (int i = 0; i < headersRow.getCellCount(); i++) {
+		int cellCount = headersRow.getCellCount();
+		
+		for (int i = 0; i < cellCount; i++) {
 
 			Cell headerCell = headersRow.getCellByIndex(i);
+			
+			String text = headerCell.getDisplayText();
+			
+			if (text == null || text.trim().equals("")) {
+				break;
+			}
 
-			headers.put(headerCell.getDisplayText(), headerCell.getColumnIndex());
+			headers.put(text, headerCell.getColumnIndex());
 		}
 
 		sheetsHeaders.put(sheetName, headers);
