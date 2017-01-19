@@ -2,28 +2,17 @@ package com.github.fjtorres.odfUtil;
 
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.github.fjtorres.odfUtil.ods.IRowMapper;
 import com.github.fjtorres.odfUtil.ods.Ods;
 
 public class OdsTest {
 
 	private static Ods ods;
-
-	private final IRowMapper<SimpleRow> mapper = new IRowMapper<SimpleRow>() {
-
-		@Override
-		public SimpleRow map(Map<String, Object> columns) {
-			return new SimpleRow((String) columns.get("Column 1"), (String) columns.get("Column 2"));
-		}
-
-	};
 
 	@BeforeClass
 	public static void setUp() throws Exception {
@@ -65,7 +54,7 @@ public class OdsTest {
 	@Test
 	public void getAllRowsTest() {
 
-		List<SimpleRow> rows = ods.readAllRows("Sheet1", 0, mapper);
+		List<SimpleRow> rows = ods.readAllRows("Sheet1", 0, SimpleRow.mapper);
 
 		Assert.assertEquals(2, rows.size());
 		Assert.assertEquals("Cell 1 - 1", rows.get(0).getColumn1());
@@ -77,7 +66,7 @@ public class OdsTest {
 	@Test
 	public void getSingleRowTest() {
 
-		SimpleRow row = ods.readRow("Sheet1", 0, 1, mapper);
+		SimpleRow row = ods.readRow("Sheet1", 0, 1, SimpleRow.mapper);
 
 		Assert.assertEquals("Cell 1 - 1", row.getColumn1());
 		Assert.assertEquals("Cell 1 - 2", row.getColumn2());
@@ -86,16 +75,16 @@ public class OdsTest {
 	@Test
 	public void largeFileTest() throws Exception {
 		
-		final int largeSize = 3000;
+		final int largeSize = 10000;
 		
 		Ods largeOds = new Ods(Paths.get(ClassLoader.getSystemResource("TEST_LARGE.ods").toURI()));
 		
-		List<SimpleRow> rows = largeOds.readAllRows("Sheet1", 0, mapper);
+		List<ComplexRow> rows = largeOds.readAllRows("Sheet1", 0, ComplexRow.mapper);
 		Assert.assertEquals(largeSize, rows.size());
 		
 		Assert.assertEquals("Cell 1 - 1", rows.get(0).getColumn1());
 		Assert.assertEquals("Cell 1 - 2", rows.get(0).getColumn2());
 		Assert.assertEquals("Cell " + largeSize + " - 1", rows.get(largeSize - 1).getColumn1());
-		Assert.assertEquals("Cell " + largeSize + " - 2", rows.get(largeSize - 1).getColumn2());
+		Assert.assertEquals("Cell " + largeSize + " - 19", rows.get(largeSize - 1).getColumn19());
 	}
 }

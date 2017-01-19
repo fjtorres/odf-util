@@ -1,5 +1,9 @@
 package com.github.fjtorres.odfUtil;
 
+import java.util.Map;
+
+import com.github.fjtorres.odfUtil.ods.IRowMapper;
+
 /**
  * Sample row class.
  * @author fjtorres
@@ -7,6 +11,15 @@ package com.github.fjtorres.odfUtil;
  */
 public class SimpleRow {
 
+	public static final IRowMapper<SimpleRow> mapper = new IRowMapper<SimpleRow>() {
+
+		@Override
+		public SimpleRow map(Map<String, Object> columns) {
+			return new SimpleRow((String) columns.get("Column 1"), (String) columns.get("Column 2"));
+		}
+
+	};
+	
 	/**
 	 * Column 1 value.
 	 */

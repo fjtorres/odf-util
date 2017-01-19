@@ -1,0 +1,16 @@
+<configuration>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{dd/MM/yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%file:%line] %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.apache.pdfbox.io" level="ERROR" />
+	<logger name="com.github.fjtorres.odfUtil" level="DEBUG" />
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>
