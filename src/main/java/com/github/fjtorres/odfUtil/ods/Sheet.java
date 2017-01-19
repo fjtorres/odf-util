@@ -38,7 +38,10 @@ public class Sheet {
 	 */
 	private Table sheet;
 
-	private Map<String, Integer> sheetsHeaders = new HashMap<>();
+	/**
+	 * Column headers position.
+	 */
+	private Map<String, Integer> columnHeaders = new HashMap<>();
 
 	/**
 	 * Constructor.
@@ -134,7 +137,7 @@ public class Sheet {
 		
 		Map<String, Object> fields = new HashMap<>();
 
-		for (Entry<String, Integer> entry : sheetsHeaders.entrySet()) {
+		for (Entry<String, Integer> entry : columnHeaders.entrySet()) {
 
 			Cell cell = row.getCellByIndex(entry.getValue());
 
@@ -184,23 +187,19 @@ public class Sheet {
 	 */
 	private void readHeaders(Integer headerIndex) {
 
-		if (!sheetsHeaders.isEmpty()) {
+		if (!columnHeaders.isEmpty()) {
 			return;
 		}
 		
 		LOGGER.debug("Loading sheet columns.");
 
-		Row headersRow = sheet.getRowByIndex(headerIndex);
-		
-		LOGGER.debug("Header row loaded");
-
 		int cellCount = sheet.getColumnCount();
 		
-		LOGGER.debug(String.format("Number of cells: %d", cellCount));
+		LOGGER.debug(String.format("Number of columns: %d", cellCount));
 
 		for (int i = 0; i < cellCount; i++) {
 
-			Cell headerCell = headersRow.getCellByIndex(i);
+			Cell headerCell = sheet.getCellByPosition(i, headerIndex);
 
 			String text = headerCell.getDisplayText();
 
@@ -209,7 +208,7 @@ public class Sheet {
 			}
 
 			LOGGER.debug(String.format("Column detected: %s", text));
-			sheetsHeaders.put(text, headerCell.getColumnIndex());
+			columnHeaders.put(text, headerCell.getColumnIndex());
 		}
 		
 		LOGGER.debug("Sheet columns loaded.");

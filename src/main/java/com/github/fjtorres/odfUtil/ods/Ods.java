@@ -244,13 +244,11 @@ public class Ods {
 
 		Table sheet = getSheet(sheetName);
 
-		Row headersRow = sheet.getRowByIndex(headerIndex);
-
-		int cellCount = headersRow.getCellCount();
+		int cellCount = sheet.getColumnCount();
 		
 		for (int i = 0; i < cellCount; i++) {
 
-			Cell headerCell = headersRow.getCellByIndex(i);
+			Cell headerCell = sheet.getCellByPosition(i, headerIndex);
 			
 			String text = headerCell.getDisplayText();
 			
